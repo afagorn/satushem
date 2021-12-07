@@ -2,9 +2,9 @@
 
 # Docker
 ## Первый запуск
-Указываем url фронта в файле `fontend/src/envireonment.ts`. Например, `http://localhost/api`
+Указываем url фронта в файле `frontend/src/environments/environment.ts`. Например, `http://localhost/api`
 
-В `API/src/connect.php` проверяем что `host=mariadb`
+В `backend/API/src/connect.php` проверяем что `host=mariadb`
 
 Билдим фронт и бек
 ``make dc-build-frontend``
@@ -14,7 +14,7 @@
 ``make dc-up``
 
 Добавить таблицы в БД
-``docker exec -i coop_mariadb_1 mysql -u satushem -psatushem satushem < db/init.sql``
+``docker exec -i <app_name>_mariadb_1 mysql -u satushem -ppassword satusjem < db/init.sql``
 
 Перейти на `localhost/api/install.php`
 
