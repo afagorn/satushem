@@ -1,0 +1,57 @@
+<ngx-spinner
+  bdColor="rgba(255,255,255,0.8)"
+  size="large"
+  color="#00b5eb"
+  type="ball-pulse"
+  loadingText="Загрузка профиля"
+></ngx-spinner>
+<div class="profilepos">
+  <h4>Мои заказы</h4>
+</div>
+
+<div *ngIf="purchaseOrders.length === 0">
+  <div class="text-center">
+    <h5>У вас еще нет заказов</h5>
+    <img height="100px" src="assets/img/box.svg"/>
+  </div>
+</div>
+
+<ul *ngIf="purchaseOrders.length !== 0" class="list-group orders-list">
+  <li
+    class="list-group-item"
+    *ngFor="let order of purchaseOrders; let i = index"
+  >
+
+    <div>
+      <div class="img-good">
+        <a [routerLink]="['/purchase', order.purchase_id]">
+          <img [src]="order.purchase_picture" class="img-image-good">
+        </a>
+      </div>
+
+      <div class="desc-good">
+        <a class="links" [routerLink]="['/purchase', order.purchase_id]">
+          <h5>{{order.purchase_name}}</h5>
+        </a>
+        <p class="mb-1">Количество: {{ order.volume }} {{order.unit}}</p>
+        <div class="price">
+          {{order.sum}} ₽
+        </div>
+        <p class="mb-1">Оплачено: {{ order.paid }} ₽</p>
+        <p class="mb-1">Отправлено: {{ order.sent }} {{order.unit}}</p>
+        <!--div class="custom-control custom-checkbox">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            id="deliveryStatus_{{i}}"
+            [disabled]="!order.paid"
+            [checked]="order.delivered"
+            (change)="updateDeliveryStatus(order, $event.target.checked)"
+          >
+          <label class="custom-control-label" for="deliveryStatus_{{i}}"
+          >Товар доставлен</label>
+        </div-->
+      </div>
+    </div>
+  </li>
+</ul>

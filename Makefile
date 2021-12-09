@@ -1,12 +1,17 @@
-dc-build-frontend:
-	docker build -f frontend.Dockerfile -t satushem_frontend .
-dc-build-backend:
-	docker build -f backend.Dockerfile -t satushem_backend .
 dc-up:
-	docker-compose up -d
+	docker-compose --env-file ./docker/.env.local up -d
+dc-restart: dc-down dc-up
 dc-start:
-	docker-compose start
+	docker-compose --env-file ./docker/.env.local start
 dc-stop:
-	docker-compose stop
+	docker-compose --env-file ./docker/.env.local stop
+dc-down:
+	docker-compose --env-file ./docker/.env.local down --remove-orphans
+dc-down-clear:
+	docker-compose --env-file ./docker/.env.local down -v --remove-orphans
+
 dc-logs:
-	docker-compose logs -f
+	docker-compose --env-file ./docker/.env.local logs -f
+
+dc-build:
+	docker-compose --env-file ./docker/.env.local build

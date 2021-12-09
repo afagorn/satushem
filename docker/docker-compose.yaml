@@ -1,0 +1,54 @@
+version: "3.7"
+services:
+  gateway:
+    build:
+      context: ../gateway/docker/development/nginx
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    depends_on:
+      - api-nginx
+      - frontend-nginx
+
+  api-nginx:
+    build:
+      context: ../backend/api/docker/development/nginx
+    depends_on:
+      - api-php
+
+  api-php:
+    build:
+      context: ../backend/api/docker/development/php
+    volumes:
+      - ../backend/api/src/:/srv/www/
+
+  frontend-nginx:
+    build:
+      context: ../frontend/docker/development/nginx
+    depends_on:
+      - frontend-node
+
+  frontend-node:
+    build:
+      context: ../frontend
+      dockerfile: ./docker/development/node/Dockerfile
+    volumes:
+      - ../frontend/app/src:/app/src
+    entrypoint: ["npm", "start"]
+
+  api-mariadb:
+    image: mariadb:10.7
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: password
+      MARIADB_USER: satushem
+      MARIADB_PASSWORD: password
+      MARIADB_DATABASE: satushem
+    ports:
+      - "3310:3306"
+    volumes:
+      - mariadb-data:/var/lib/mysql
+
+volumes:
+  mariadb-data:
+    driver: local
