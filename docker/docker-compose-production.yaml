@@ -1,0 +1,42 @@
+version: "3.7"
+services:
+  gateway:
+    image: ${REGISTRY}/satushem_gateway:${IMAGE_TAG}
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - api-nginx
+      - frontend-nginx
+
+  api-nginx:
+    image: ${REGISTRY}/satushem_api-nginx:${IMAGE_TAG}
+    restart: always
+    depends_on:
+      - api-php
+
+  api-php:
+    image: ${REGISTRY}/satushem_api-php:${IMAGE_TAG}
+    restart: always
+
+  frontend-nginx:
+    image: ${REGISTRY}/satushem_frontend-nginx:${IMAGE_TAG}
+    restart: always
+
+  api-mariadb:
+    image: mariadb:10.7
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: password
+      MARIADB_USER: satushem
+      MARIADB_PASSWORD: password
+      MARIADB_DATABASE: satushem
+    ports:
+      - "3310:3306"
+    volumes:
+      - mariadb-data:/var/lib/mysql
+
+volumes:
+  mariadb-data:
+    driver: local

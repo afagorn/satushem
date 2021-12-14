@@ -19,7 +19,6 @@
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
 header('Content-Type: application/json');
-//header('Access-Control-Allow-Origin: http://localhost:4200');
 header('Access-Control-Allow-Origin: http://localhost:8080');
 if ($_SERVER['REQUEST_METHOD']=='OPTIONS') {
 	header('Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE');

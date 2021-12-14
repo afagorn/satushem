@@ -34,6 +34,7 @@ services:
       dockerfile: ./docker/development/node/Dockerfile
     volumes:
       - ../frontend/app/src:/app/src
+      - ../frontend/app/dist:/app/dist
     entrypoint: ["npm", "start"]
 
   api-mariadb:
