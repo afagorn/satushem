@@ -8,19 +8,14 @@
 ## Первый запуск
 Превращаем `docker/.env.local.dist` в `docker/.env.local`
 
-Билдим образы
+Запускаем init команду всего проекта, где скачаются образы докера, соберутся, запустятся и установится вендоры приложений(php vendors, node modules, etc)
 ```
-make dc-build
-```
-
-Создаем контейнеры
-```
-make dc-up
+make init
 ```
 
-Добавить таблицы в БД
+Инициализируем таблицы в БД. В будущем заменятся на миграции
 ```
-docker exec -i satushem_api-mariadb_1 mysql -u satushem -ppassword satushem < backend/api/db/init.sql
+make api-db-init
 ```
 
 Перейти на `localhost:8081/install.php`
@@ -30,9 +25,23 @@ docker exec -i satushem_api-mariadb_1 mysql -u satushem -ppassword satushem < ba
 ## Последующее использование
 Запуск контейнеров
 ```
-make dc-start
+make up
 ```
 
+Перезапуск контейнеров
+```
+make restart
+```
+
+Остановка контейнеров
+```
+make down
+```
+
+Пересобрать образы без удаления volumes
+```
+make rebuild
+```
 ## Сборка на прод
 В ``frontend/app/src/enviroments/environment.prod.ts`` указываем продевский `apiUrl`, например, `https://api.site.com`
 
@@ -41,7 +50,12 @@ make dc-start
 make node-build
 ```
 
-Запушить на docker registry с указанием тега. Например, 
+Сбилдить образы докера с указанием тега и registry. Например:
+```
+REGISTRY=afagorn IMAGE_TAG=master-1 make dc-build-prod
+```
+
+Запушить на docker registry с указанием тега. Например: 
 ```
 REGISTRY=afagorn IMAGE_TAG=master-1 make dc-push
 ```

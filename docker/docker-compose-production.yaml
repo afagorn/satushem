@@ -18,7 +18,12 @@ services:
 
   api-php:
     image: ${REGISTRY}/satushem_api-php:${IMAGE_TAG}
+    environment:
+      APP_ENV: prod
     restart: always
+
+  api-php-cli:
+    image: ${REGISTRY}/satushem_api-cli:${IMAGE_TAG}
 
   frontend-nginx:
     image: ${REGISTRY}/satushem_frontend-nginx:${IMAGE_TAG}

@@ -19,8 +19,17 @@ services:
   api-php:
     build:
       context: ../backend/api/docker/development/php
+    environment:
+      APP_ENV: dev
+      APP_DEBUG: 1
     volumes:
-      - ../backend/api/src/:/srv/www/
+      - ../backend/api/:/srv/www/
+
+  api-php-cli:
+    build:
+      context: ../backend/api/docker/development/php-cli
+    volumes:
+      - ../backend/api/:/srv/www/
 
   frontend-nginx:
     build:
@@ -39,7 +48,6 @@ services:
 
   api-mariadb:
     image: mariadb:10.7
-    restart: always
     environment:
       MARIADB_ROOT_PASSWORD: password
       MARIADB_USER: satushem
