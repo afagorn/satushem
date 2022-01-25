@@ -22,10 +22,17 @@ services:
     environment:
       APP_ENV: dev
       APP_DEBUG: 1
+      DB_PASSWORD: password
+      DB_USER: satushem
+      DB_HOST: api-postgres
+      DB_NAME: satushem
     volumes:
       - ../backend/api/:/srv/www/
 
   api-php-cli:
+    environment:
+      APP_ENV: dev
+      APP_DEBUG: 1
     build:
       context: ../backend/api/docker/development/php-cli
     volumes:
@@ -46,6 +53,17 @@ services:
       - ../frontend/app/dist:/app/dist
     entrypoint: ["npm", "start"]
 
+  api-postgres:
+    image: postgres:14.1-alpine
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: satushem
+      POSTGRES_DB: satushem
+    ports:
+      - "54321:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
   api-mariadb:
     image: mariadb:10.7
     environment:
@@ -60,4 +78,4 @@ services:
 
 volumes:
   mariadb-data:
-    driver: local
+  postgres-data:

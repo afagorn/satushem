@@ -18,7 +18,7 @@ interface UserRepository
 
     public function findByChangeEmailToken(string $token): ?User;
 
-    public function hasByNetwork(NetworkIdentity $networkIdentity): bool;
+    public function hasByNetwork(Network $network): bool;
 
     /**
      * @param Id $id

@@ -4,8 +4,8 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 WORKDIR /srv/www
 
-RUN docker-php-ext-install -j$(nproc) pdo  \
-    && docker-php-ext-install -j$(nproc) pdo_mysql \
-    && docker-php-ext-install mysqli
+RUN apk --no-cache add postgresql-dev \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo_pgsql
 
 COPY ./src ./

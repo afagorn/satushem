@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Auth\Command\AttachByNetwork;
 
 use App\Auth\Entity\User\Id;
-use App\Auth\Entity\User\NetworkIdentity;
+use App\Auth\Entity\User\Network;
 use App\Auth\Entity\User\UserRepository;
 use App\Flusher;
 use DomainException;
@@ -20,7 +20,7 @@ class Handler
 
     public function handle(Command $command): void
     {
-        $network = new NetworkIdentity($command->network, $command->identity);
+        $network = new Network($command->network, $command->identity);
         if($this->repository->hasByNetwork($network)) {
             throw new DomainException('This network already in use');
         }

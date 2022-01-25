@@ -7,20 +7,25 @@ namespace App\Auth\Entity\User;
 use App\Auth\Service\PasswordHasher;
 use ArrayObject;
 use DateTimeImmutable;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Table;
 use DomainException;
 
+#[Entity]
+#[Table(name: 'auth')]
 class User
 {
     private Id $id;
     private Email $email;
     private Status $status;
+    #[]
     private DateTimeImmutable $createdAt;
     private ArrayObject $networks;
-    private ?Token $joinConfirmToken;
-    private ?Token $resetPasswordToken;
-    private ?Token $changeEmailToken;
-    private ?Email $newEmail;
-    private ?string $passwordHash;
+    private ?Token $joinConfirmToken = null;
+    private ?Token $resetPasswordToken = null;
+    private ?Token $changeEmailToken = null;
+    private ?Email $newEmail = null;
+    private ?string $passwordHash = null;
     private Role $role;
 
     private function __construct(
@@ -55,17 +60,17 @@ class User
         Id $id,
         Email $email,
         DateTimeImmutable $createdAt,
-        NetworkIdentity $networkIdentity
+        Network $network
     ): self {
         $user = new self($id, $email, Status::active(), $createdAt);
-        $user->networks->append($networkIdentity);
+        $user->networks->append($network);
 
         return $user;
     }
 
-    public function attachNetwork(NetworkIdentity $network)
+    public function attachNetwork(Network $network)
     {
-        /** @var NetworkIdentity $userNetwork */
+        /** @var Network $userNetwork */
         foreach ($this->networks as $userNetwork) {
             if($userNetwork->isEqualTo($network)) {
                 throw new DomainException('This network already exist for this user');
@@ -208,7 +213,7 @@ class User
     }
 
     /**
-     * @return NetworkIdentity[]
+     * @return Network[]
      */
     public function getNetworks(): array
     {

@@ -6,7 +6,7 @@ namespace App\Auth\Entity\User;
 
 use Webmozart\Assert\Assert;
 
-class NetworkIdentity
+class Network
 {
     private string $network;
     private string $identity;
@@ -19,11 +19,11 @@ class NetworkIdentity
         $this->identity = mb_strtolower($identity);
     }
 
-    public function isEqualTo(self $networkIdentity): bool
+    public function isEqualTo(self $network): bool
     {
         return
-            $this->identity === $networkIdentity->identity &&
-            $this->network === $networkIdentity->network;
+            $this->identity === $network->identity &&
+            $this->network === $network->network;
     }
 
     /**
